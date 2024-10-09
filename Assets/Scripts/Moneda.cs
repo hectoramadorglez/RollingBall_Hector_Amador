@@ -18,5 +18,19 @@ public class Moneda : MonoBehaviour
     void Update()
     {
         transform.Rotate(direccion * velocidad * Time.deltaTime,Space.World);
+       
+        
+       
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Moneda")) 
+        { 
+        
+            Destroy(other.gameObject);
+        
+        }
+
+
     }
 }
