@@ -8,7 +8,7 @@ public class Rodillo : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]   int velocidad;
     [SerializeField] int fuerza;
-    [SerializeField] 
+    [SerializeField] private
     void Start()
     {
         rb = GetComponent<Rigidbody>();
