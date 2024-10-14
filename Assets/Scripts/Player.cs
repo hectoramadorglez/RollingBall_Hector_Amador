@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     Vector3 miVector = new Vector3(0,1,0);
     int puntuacion;
     [SerializeField] TMP_Text  textoPuntuacion;
+    [SerializeField] private float distanciaRaycast;
 
     void Start()
     {
@@ -33,14 +34,21 @@ public class Player : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(new Vector3(0, 1, 0) * fuerza, ForceMode.Impulse);
+            
+            if(DetectaSuelo()) 
+            {
+
+                rb.AddForce(Vector3.up * fuerza, ForceMode.Impulse);
+
+            }
+            
 
 
 
         }
         rb.AddForce(new Vector3(h, 0, 0) * fuerza, ForceMode.Force);
         rb.AddForce(new Vector3(0, 0, v) * fuerza, ForceMode.Force);
-
+        //rb.AddForce(new Vector3(h,0,v).normalized * fuerza, ForceMode.Force);
 
     }
     private void OnTriggerEnter(Collider other)
@@ -51,10 +59,10 @@ public class Player : MonoBehaviour
 
 
     }
-    private void DetectaSuelo() 
+    private bool DetectaSuelo() 
     {
-       
-    
+       bool resultado = Physics.Raycast(transform.position, new Vector3(0, -1, 0), distanciaRaycast);
+        return resultado;  
     
     }
      
