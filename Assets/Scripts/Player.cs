@@ -51,4 +51,15 @@ public class Player : MonoBehaviour
 
 
     }
+    private void DetectaSuelo() 
+    {
+       
+    
+    
+    }
+     
+    
+    
+    
+    
 }
