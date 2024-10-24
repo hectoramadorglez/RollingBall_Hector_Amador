@@ -38,6 +38,7 @@ public class Paredcubos : MonoBehaviour
 
             Time.timeScale = 0.1f;
             iniciarTimer = true;
+
         
         }
 
