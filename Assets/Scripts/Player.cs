@@ -13,30 +13,26 @@ public class Player : MonoBehaviour
     [SerializeField] TMP_Text  textoPuntuacion;
     [SerializeField] private float distanciaRaycast;
 
+    float h, v;
     void Start()
     {
        rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.mass = 1;
-        rb.drag = 4f;
     }
 
     // Update is called once per frame
     void Update()
     {
        
-
-
-    }
-    private void FixedUpdate()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
         if (Input.GetKeyDown(KeyCode.Space))
         {
             
             if(DetectaSuelo()) 
             {
+                Debug.Log("Salto!");
 
                 rb.AddForce(Vector3.up * fuerza, ForceMode.Impulse);
 
@@ -46,6 +42,11 @@ public class Player : MonoBehaviour
 
 
         }
+
+
+    }
+    private void FixedUpdate()
+    {
         rb.AddForce(new Vector3(h, 0, 0) * fuerza, ForceMode.Force);
         rb.AddForce(new Vector3(0, 0, v) * fuerza, ForceMode.Force);
         //rb.AddForce(new Vector3(h,0,v).normalized * fuerza, ForceMode.Force);
