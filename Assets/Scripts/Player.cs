@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] int fuerza;
     Vector3 miVector = new Vector3(0,1,0);
     int puntuacion;
-    [SerializeField] TMP_Text  textoPuntuacion;
+    //[SerializeField] TMP_Text  textoPuntuacion;
     [SerializeField] private float distanciaRaycast;
 
     float h, v;
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         puntuacion += 10;
-        textoPuntuacion.SetText("Score: "+ puntuacion);
+        //textoPuntuacion.SetText("Score: "+ puntuacion);
 
 
 
