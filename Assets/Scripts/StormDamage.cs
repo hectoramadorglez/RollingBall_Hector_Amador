@@ -8,46 +8,63 @@ public class StormDamage : MonoBehaviour
 
 
     public float damagePerSecond = 5f;     // Daño que causa la tormenta por segundo
-    public float speed = 5f;
-    private Renderer playerRenderer;       // Referencia al Renderer del jugador para cambiar su color
-    private Coroutine blinkCoroutine;
+    public float speed = 5f;               // Velocidad de movimiento de la tormenta
     public Vector3 moveDirection = Vector3.forward; // Dirección de movimiento
+    public float startDelay = 5f;          // Retraso antes de que la tormenta comience a moverse
 
     private bool isInStorm = false;        // Indica si el jugador está en la tormenta
     private bool isMoving = false;         // Indica si la tormenta está en movimiento
+    private bool isPaused = false;         // Indica si la tormenta está pausada temporalmente
     private PlayerHealth playerHealth;     // Referencia al componente de salud del jugador
+    private Renderer playerRenderer;       // Referencia al renderer del jugador para cambiar su color
+    private Coroutine blinkCoroutine;      // Almacena la corrutina de parpadeo
+    private float countdownTimer;          // Temporizador de cuenta regresiva
 
     private void Start()
     {
         // Buscar el componente de salud del jugador
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
-        playerRenderer = playerHealth.GetComponent<Renderer>();
+        playerRenderer = playerHealth.GetComponent<Renderer>(); // Obtener el Renderer del jugador
         if (playerHealth == null || playerRenderer == null)
         {
             Debug.LogError("No se encontró el componente de salud o Renderer del jugador");
         }
 
-
-        // Iniciar la tormenta después de 5 segundos
-        Invoke("StartStormMovement", 5f);
+        // Inicializar el temporizador
+        countdownTimer = startDelay;
     }
 
     private void Update()
     {
-        // Mover la tormenta si está en movimiento
-        if (isMoving)
+        // Controlar la cuenta regresiva antes de que la tormenta comience a moverse
+        if (!isMoving)
+        {
+            CountdownBeforeMovement();
+        }
+        else if (!isPaused)  // Mover la tormenta solo si está en movimiento y no está pausada
         {
             MoveStorm();
         }
 
-        // Si el jugador está en la tormenta, aplicar daño
+        // Aplicar daño si el jugador está en la tormenta
         if (isInStorm && playerHealth != null)
         {
             playerHealth.TakeDamage(damagePerSecond * Time.deltaTime);
         }
     }
 
-    // Método para iniciar el movimiento de la tormenta
+    private void CountdownBeforeMovement()
+    {
+        if (countdownTimer > 0)
+        {
+            countdownTimer -= Time.deltaTime;
+        }
+        else
+        {
+            StartStormMovement();
+        }
+    }
+
     private void StartStormMovement()
     {
         isMoving = true;
@@ -59,11 +76,12 @@ public class StormDamage : MonoBehaviour
         transform.Translate(moveDirection.normalized * speed * Time.deltaTime);
     }
 
-    // Activar el daño de tormenta cuando el jugador entra en la zona de tormenta
+    // Activar el daño y el efecto de parpadeo cuando el jugador entra en la zona de tormenta
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            
             isInStorm = true;
 
             // Iniciar el efecto de parpadeo
@@ -72,9 +90,14 @@ public class StormDamage : MonoBehaviour
                 blinkCoroutine = StartCoroutine(BlinkPlayer());
             }
         }
+        else if (other.CompareTag("Recolectable"))
+        {
+            Debug.Log("Recolectable recogido");
+            StartCoroutine(PauseStorm());
+            Destroy(other.gameObject);
+        }
     }
 
-    // Desactivar el daño de tormenta cuando el jugador sale de la zona de tormenta
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -92,6 +115,8 @@ public class StormDamage : MonoBehaviour
             }
         }
     }
+
+    // Corrutina para hacer parpadear al jugador con colores aleatorios
     private IEnumerator BlinkPlayer()
     {
         while (isInStorm)
@@ -105,5 +130,13 @@ public class StormDamage : MonoBehaviour
             // Esperar un corto período antes de cambiar el color nuevamente
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    // Corrutina para pausar temporalmente el movimiento de la tormenta
+    private IEnumerator PauseStorm()
+    {
+        isPaused = true;  // Pausar la tormenta
+        yield return new WaitForSeconds(3f);  // Esperar 3 segundos
+        isPaused = false;  // Reanudar el movimiento de la tormenta
     }
 }
