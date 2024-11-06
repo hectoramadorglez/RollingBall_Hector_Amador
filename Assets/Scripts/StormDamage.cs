@@ -8,7 +8,9 @@ public class StormDamage : MonoBehaviour
 
 
     public float damagePerSecond = 5f;     // Daño que causa la tormenta por segundo
-    public float speed = 5f;               // Velocidad de movimiento de la tormenta
+    public float speed = 5f;
+    private Renderer playerRenderer;       // Referencia al Renderer del jugador para cambiar su color
+    private Coroutine blinkCoroutine;
     public Vector3 moveDirection = Vector3.forward; // Dirección de movimiento
 
     private bool isInStorm = false;        // Indica si el jugador está en la tormenta
@@ -19,10 +21,12 @@ public class StormDamage : MonoBehaviour
     {
         // Buscar el componente de salud del jugador
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
-        if (playerHealth == null)
+        playerRenderer = playerHealth.GetComponent<Renderer>();
+        if (playerHealth == null || playerRenderer == null)
         {
-            Debug.LogError("No se encontró el componente de salud del jugador");
+            Debug.LogError("No se encontró el componente de salud o Renderer del jugador");
         }
+
 
         // Iniciar la tormenta después de 5 segundos
         Invoke("StartStormMovement", 5f);
@@ -61,6 +65,12 @@ public class StormDamage : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isInStorm = true;
+
+            // Iniciar el efecto de parpadeo
+            if (blinkCoroutine == null)
+            {
+                blinkCoroutine = StartCoroutine(BlinkPlayer());
+            }
         }
     }
 
@@ -70,6 +80,30 @@ public class StormDamage : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isInStorm = false;
+
+            // Detener el efecto de parpadeo
+            if (blinkCoroutine != null)
+            {
+                StopCoroutine(blinkCoroutine);
+                blinkCoroutine = null;
+
+                // Restaurar el color original del jugador
+                playerRenderer.material.color = Color.white;
+            }
+        }
+    }
+    private IEnumerator BlinkPlayer()
+    {
+        while (isInStorm)
+        {
+            // Generar un color aleatorio
+            Color randomColor = new Color(Random.value, Random.value, Random.value);
+
+            // Cambiar el color del jugador
+            playerRenderer.material.color = randomColor;
+
+            // Esperar un corto período antes de cambiar el color nuevamente
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }
