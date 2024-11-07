@@ -5,55 +5,43 @@ using UnityEngine;
 public class BallSpawner : MonoBehaviour
 {
 
-    
-    IEnumerator SpawnBallsAndWait()
+
+    public GameObject ballPrefab;       
+    public Vector3 spawnPoint = new Vector3(0, 35, 160); 
+    public float spawnInterval = 2f;     
+    public Vector2 spawnAreaSize = new Vector2(5f, 5f); 
+    private float spawnTimer; 
+    private bool canSpawn = true; 
+
+    void Update()
     {
-        while (true)
+        
+        if (canSpawn)
         {
-            // Generar 4 bolas
-            SpawnBalls();
+            spawnTimer += Time.deltaTime;
 
-            // Esperar 3 segundos antes de generar las siguientes bolas
-            yield return new WaitForSeconds(spawnInterval);
-
-            // Esperar 25 segundos antes de destruir las bolas generadas
-            yield return new WaitForSeconds(destroyAfter);
-
-            // Destruir todas las bolas generadas
-            DestroyAllBalls();
-        }
-    }
-
-    void SpawnBalls()
-    {
-        for (int i = 0; i < ballsPerSpawn; i++)
-        {
-            // Calcular una posición aleatoria dentro del área definida alrededor del spawnPoint
-            float randomX = Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2);
-            float randomZ = Random.Range(-spawnAreaSize.y / 2, spawnAreaSize.y / 2);
-
-            // Crear la posición final para la bola sumando el desplazamiento aleatorio a la posición del spawnPoint
-            Vector3 spawnPosition = spawnPoint + new Vector3(randomX, 0, randomZ);
-
-            // Instanciar la bola en la posición calculada
-            GameObject newBall = Instantiate(ballPrefab, spawnPosition, Quaternion.identity);
-            // Agregar la bola a la lista para gestionarla más tarde
-            spawnedBalls.Add(newBall);
-        }
-    }
-
-    void DestroyAllBalls()
-    {
-        // Destruir todas las bolas almacenadas
-        foreach (GameObject ball in spawnedBalls)
-        {
-            if (ball != null)
+            if (spawnTimer >= spawnInterval)
             {
-                Destroy(ball);
+                SpawnBall(); 
+                spawnTimer = 0f; 
+                canSpawn = false; 
             }
         }
+    }
 
-        // Limpiar la lista de bolas
-        spawnedBalls.Clear();
+    void SpawnBall()
+    {
+        
+        float randomX = Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2);
+        float randomZ = Random.Range(-spawnAreaSize.y / 2, spawnAreaSize.y / 2);
+
+        
+        Vector3 spawnPosition = spawnPoint + new Vector3(randomX, 0, randomZ);
+
+        
+        Instantiate(ballPrefab, spawnPosition, Quaternion.identity);
+
+        
+        canSpawn = true;
     }
 }
