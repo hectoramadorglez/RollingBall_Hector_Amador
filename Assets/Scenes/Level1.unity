@@ -7407,6 +7407,7 @@ GameObject:
   - component: {fileID: 698448814}
   - component: {fileID: 698448813}
   - component: {fileID: 698448812}
+  - component: {fileID: 698448816}
   - component: {fileID: 698448815}
   m_Layer: 0
   m_Name: Recolectable
@@ -7501,6 +7502,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0629594, y: 2.0000002, z: 1.0000002}
   m_Center: {x: -0.10690752, y: 0, z: -0.00000010681608}
+--- !u!114 &698448816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698448809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffe6c9426d74f74a83045026e1e551f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseDuration: 3
 --- !u!1 &702796618
 GameObject:
   m_ObjectHideFlags: 0
@@ -8254,6 +8268,7 @@ GameObject:
   - component: {fileID: 779848302}
   - component: {fileID: 779848301}
   - component: {fileID: 779848300}
+  - component: {fileID: 779848303}
   - component: {fileID: 779848299}
   m_Layer: 0
   m_Name: Cube (27)
@@ -8348,6 +8363,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 180.238, y: 180, z: 0}
+--- !u!114 &779848303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779848298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e5a4cecb768484a941e7bf2516adff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidadRotacion: 50
+  fuerzaLanzamiento: 10
 --- !u!1 &780560579
 GameObject:
   m_ObjectHideFlags: 0
@@ -11923,8 +11952,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9575e3dbff8b791469ec7c272961d361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direccion: {x: 0, y: 0, z: 0}
-  velocidad: 2
+  velocidadMinima: 2
+  velocidadMaxima: 5
+  distanciaMovimiento: 5
 --- !u!1 &1088991673
 GameObject:
   m_ObjectHideFlags: 0
@@ -14304,8 +14334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e5a4cecb768484a941e7bf2516adff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidad: 2
-  fuerza: 0
+  velocidadRotacion: 50
+  fuerzaLanzamiento: 10
 --- !u!1 &1240011709
 GameObject:
   m_ObjectHideFlags: 0
@@ -14557,8 +14587,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9575e3dbff8b791469ec7c272961d361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direccion: {x: 0, y: 0, z: 0}
-  velocidad: 2
+  velocidadMinima: 2
+  velocidadMaxima: 5
+  distanciaMovimiento: 5
 --- !u!1001 &1269203943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17765,8 +17796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9575e3dbff8b791469ec7c272961d361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direccion: {x: 0, y: 0, z: 0}
-  velocidad: 2
+  velocidadMinima: 2
+  velocidadMaxima: 5
+  distanciaMovimiento: 5
 --- !u!1001 &1567101304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18481,6 +18513,7 @@ GameObject:
   - component: {fileID: 1630082923}
   - component: {fileID: 1630082922}
   - component: {fileID: 1630082921}
+  - component: {fileID: 1630082924}
   - component: {fileID: 1630082920}
   m_Layer: 0
   m_Name: Cube (24)
@@ -18575,6 +18608,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 180.238, y: 180, z: 0}
+--- !u!114 &1630082924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630082919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e5a4cecb768484a941e7bf2516adff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidadRotacion: 50
+  fuerzaLanzamiento: 10
 --- !u!1 &1630127303
 GameObject:
   m_ObjectHideFlags: 0
@@ -21724,8 +21771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9575e3dbff8b791469ec7c272961d361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direccion: {x: 0, y: 0, z: 0}
-  velocidad: 2
+  velocidadMinima: 2
+  velocidadMaxima: 5
+  distanciaMovimiento: 5
 --- !u!1 &1932397443
 GameObject:
   m_ObjectHideFlags: 0

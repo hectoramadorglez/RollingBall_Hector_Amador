@@ -92,8 +92,10 @@ public class StormDamage : MonoBehaviour
         }
         else if (other.CompareTag("Recolectable"))
         {
-            Debug.Log("Recolectable recogido");
+            // Pausar la tormenta por 3 segundos al recoger un objeto recolectable
             StartCoroutine(PauseStorm());
+
+            // Destruir el objeto recolectable
             Destroy(other.gameObject);
         }
     }
@@ -133,10 +135,21 @@ public class StormDamage : MonoBehaviour
     }
 
     // Corrutina para pausar temporalmente el movimiento de la tormenta
-    private IEnumerator PauseStorm()
+    public IEnumerator PauseStorm()
     {
         isPaused = true;  // Pausar la tormenta
         yield return new WaitForSeconds(3f);  // Esperar 3 segundos
         isPaused = false;  // Reanudar el movimiento de la tormenta
+    }
+    private IEnumerator PauseStormCoroutine(float duration)
+    {
+        isPaused = true;            
+        yield return new WaitForSeconds(duration);  
+        isPaused = false;           
+    }
+    public void PauseStorm(float duration) 
+    { 
+        StartCoroutine(PauseStormCoroutine(duration));
+    
     }
 }

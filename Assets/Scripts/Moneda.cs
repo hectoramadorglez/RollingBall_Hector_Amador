@@ -5,32 +5,24 @@ using UnityEngine;
 public class Moneda : MonoBehaviour
 {
     // Start is called before the first frame update
-    
-    [SerializeField] Vector3 direccion;
-    [SerializeField] float velocidad;
 
-    void Start()
-    {
-        
-    }
+    public float pauseDuration = 3f; // Duración de la pausa de la tormenta
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        transform.Rotate(direccion * velocidad * Time.deltaTime,Space.World);
-       
-        
-       
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Moneda")) 
-        { 
-        
-            Destroy(other.gameObject);
-        
+        if (other.CompareTag("Player"))
+        {
+            // Intentar encontrar el script de la tormenta en la escena
+            StormDamage storm = FindObjectOfType<StormDamage>();
+
+            if (storm != null)
+            {
+                // Pausar la tormenta durante el tiempo especificado
+                storm.PauseStorm(pauseDuration);
+            }
+
+            // Destruir el recolectable después de recogerlo
+            Destroy(gameObject);
         }
-
-
     }
 }

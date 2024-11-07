@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class Rodillo : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private Rigidbody rb;
-    [SerializeField]   int velocidad;
-    [SerializeField] int fuerza;
-    [SerializeField] private
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.AddTorque(new Vector3 (0,0,0) * fuerza, ForceMode.Impulse);
-       
-    }
+    
+    public float velocidadRotacion = 50f;
+    public float fuerzaLanzamiento = 10f;
 
-    // Update is called once per frame
     void Update()
     {
-        
-
        
+        transform.Rotate(0, velocidadRotacion * Time.deltaTime, 0);
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Rigidbody rbJugador = collision.gameObject.GetComponent<Rigidbody>();
+            if (rbJugador != null)
+            {
+               
+                Vector3 direccionLanzamiento = collision.transform.position - transform.position;
+                direccionLanzamiento.y = 1; 
+                direccionLanzamiento.Normalize();
+
+               
+                rbJugador.AddForce(direccionLanzamiento * fuerzaLanzamiento, ForceMode.Impulse);
+            }
+        }
     }
 }
