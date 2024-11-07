@@ -18,13 +18,15 @@ public class StormDamage : MonoBehaviour
     private PlayerHealth playerHealth;     
     private Renderer playerRenderer;       
     private Coroutine blinkCoroutine;      
-    private float countdownTimer;          
+    private float countdownTimer;
+    
 
     private void Start()
     {
-        
+
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
-        playerRenderer = playerHealth.GetComponent<Renderer>(); 
+        playerRenderer = playerHealth.GetComponent<Renderer>();
+
         if (playerHealth == null || playerRenderer == null)
         {
             Debug.LogError("No se encontró el componente de salud o Renderer del jugador");
@@ -121,15 +123,16 @@ public class StormDamage : MonoBehaviour
     
     private IEnumerator BlinkPlayer()
     {
+
         while (isInStorm)
         {
-            
+
             Color randomColor = new Color(Random.value, Random.value, Random.value);
 
-            
+
             playerRenderer.material.color = randomColor;
 
-            
+
             yield return new WaitForSeconds(0.2f);
         }
     }
