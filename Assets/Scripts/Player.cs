@@ -12,11 +12,13 @@ public class Player : MonoBehaviour
     int puntuacion;
     //[SerializeField] TMP_Text  textoPuntuacion;
     [SerializeField] private float distanciaRaycast;
+    
 
     float h, v;
     void Start()
     {
-       rb = GetComponent<Rigidbody>();
+       
+        rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.mass = 1;
     }
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         puntuacion += 10;
-        //textoPuntuacion.SetText("Score: "+ puntuacion);
+       
 
 
 
@@ -66,9 +68,10 @@ public class Player : MonoBehaviour
         return resultado;  
     
     }
-     
     
-    
-    
-    
+
+
+
+
+
 }
